@@ -1,0 +1,37 @@
+
+> aevum-tusd8-payguard@1.0.0 demo
+> node src/demo.js
+
+== 1. Fork QDay Aevum Testnet (Chain ID 44005) ==
+Forked https://rpc-test.qday.info at block #4103216 (chainId=44005)
+Pinned tUSD8: 0x456569838f1d43009A91ebA4263147Afd7233483 (6 decimals)
+PayeeRegistry: 0xE2c52C921fD62637B120BA21145775bA510a32Dc
+TUSD8PayGuard: 0xa66c34F46d96DB006312627Ba0D2F9178e5735aC
+Treasury funded from fork tUSD8Faucet: 200.0 tUSD8
+
+== 2. Confirmation-of-Payee & ERC-681 Invoice Creation ==
+Invoice #1 created (0x29c17503f2bc...) & funded (0x8e64907765d0...)
+ERC-681 URI: ethereum:0x456569838f1d43009A91ebA4263147Afd7233483@44005/transfer?address=0x57A1ab93E06B019815853c18A64E352fde24a23c&uint256=40000000
+
+== 3. Confirmation-of-Payee Wrong-Label Protection ==
+REVERTED as expected: ConfirmationOfPayeeFailed() — blocked by TUSD8PayGuard on-chain policy
+
+== 4. Milestone Escrow Release (15.00 + 25.00 tUSD8) ==
+Milestone 1 released (15.00 tUSD8): tx 0x404cf763b28d...
+Milestone 2 released (25.00 tUSD8): tx 0xa7a66f18b586...
+
+== 5. Scoped AI Agent Session Key & Security Guardrails ==
+Granted session key (maxPerTx=20, dailyCap=30 tUSD8): tx 0x4383d2bb8411...
+Agent payment 18.50 tUSD8 -> SETTLED tx 0xf3232c318ded...
+Prompt-injected unverified payee (5.00 tUSD8) -> REFUSED: UnverifiedPayee() — blocked by TUSD8PayGuard on-chain policy
+Over per-tx cap (25.00 tUSD8 > 20.00) -> REFUSED: PerTxCapExceeded() — blocked by TUSD8PayGuard on-chain policy
+Session revoked in 1 tx (0x2ad418e79832...)
+Post-revocation attempt -> REFUSED: SessionRevokedErr() — blocked by TUSD8PayGuard on-chain policy
+
+== 6. Honest tUSD8 Chain Watcher (Zero-Value Transfer Immunity) ==
+0 tUSD8 Transfer tx 0x0026497aac6b... -> skippedZero=1 (total skipped=1)
+
+== Demo Summary ==
+Balances -> Treasury: 141.5 tUSD8 | Merchant: 58.5 tUSD8 | Escrow: 0.0 tUSD8
+Watcher -> Verified tUSD8 transfers: 6 | Zero-value skipped: 1
+Demo complete.

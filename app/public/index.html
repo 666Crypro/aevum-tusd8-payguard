@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tUSD8 PayGuard — QDay Aevum Stablecoin Clearinghouse</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <div>
+        <h1>tUSD8 PayGuard</h1>
+        <p class="subtitle">Verified Invoicing, Milestone Escrow &amp; Policy-Bounded Agent Clearinghouse on QDay Aevum</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span id="net-pill" class="pill">Chain ID 44005 · Loading…</span>
+      <button id="btn-add-network" class="btn btn-secondary">Add Aevum to Wallet</button>
+      <button id="btn-connect-wallet" class="btn btn-primary">Connect Wallet</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Treasury Balance</span>
+        <strong id="bal-treasury" class="stat-value">—</strong>
+        <span class="stat-sub">Official tUSD8 (6 dec)</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Merchant Received</span>
+        <strong id="bal-merchant" class="stat-value accent">—</strong>
+        <span id="cop-badge" class="stat-sub">CoP: —</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Escrow Vault</span>
+        <strong id="bal-escrow" class="stat-value">—</strong>
+        <span class="stat-sub">Locked in TUSD8PayGuard</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Honest Watcher</span>
+        <strong id="watcher-stats" class="stat-value">—</strong>
+        <span class="stat-sub">Zero-value transfers dropped</span>
+      </div>
+    </section>
+
+    <section class="contract-bar">
+      <div><span>tUSD8 Token:</span> <code id="addr-tusd8">0x456569838f1d43009A91ebA4263147Afd7233483</code></div>
+      <div><span>PayeeRegistry:</span> <code id="addr-registry">—</code></div>
+      <div><span>TUSD8PayGuard:</span> <code id="addr-guard">—</code></div>
+    </section>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="invoicing">1. Invoices &amp; Escrow</button>
+      <button class="tab" data-tab="agent">2. AI Agent Session Keys</button>
+      <button class="tab" data-tab="watcher">3. Honest Chain Watcher</button>
+    </nav>
+
+    <div id="status-banner" class="banner hidden" role="status"></div>
+
+    <!-- TAB 1: INVOICING & ESCROW -->
+    <section id="tab-invoicing" class="tab-panel active">
+      <div class="two-col">
+        <div class="card">
+          <h2>Create &amp; Fund tUSD8 Invoice</h2>
+          <p class="hint">All amounts use integer 6-decimal base units. Confirmation-of-Payee verifies the payee label hash on-chain before funds move.</p>
+          <form id="form-invoice" class="form-grid">
+            <label>
+              Verified Payee Label (CoP)
+              <input id="inv-label" type="text" value="Aevum Cloud Node #1" required />
+            </label>
+            <label>
+              Amount (tUSD8)
+              <input id="inv-amount" type="text" value="40.00" required />
+              <span id="inv-units-preview" class="micro">40,000,000 base units (6 decimals)</span>
+            </label>
+            <label>
+              Settlement Mode
+              <select id="inv-mode">
+                <option value="Escrow">Milestone Escrow (Buyer-Protected)</option>
+                <option value="Instant">Instant Verified Settlement</option>
+              </select>
+            </label>
+            <label>
+              Invoice Reference
+              <input id="inv-ref" type="text" value="INV-2026-0042" required />
+            </label>
+            <div class="btn-row">
+              <button type="submit" class="btn btn-primary">Create &amp; Fund Invoice</button>
+              <button type="button" id="btn-gen-qr" class="btn btn-secondary">Preview ERC-681 QR</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card qr-card">
+          <h2>ERC-681 Payment Request</h2>
+          <p class="hint">Pinned to <code>@44005</code> and official <code>tUSD8</code> contract so mobile wallets never pay on the wrong network or token.</p>
+          <div id="qr-box" class="qr-box"></div>
+          <code id="erc681-uri" class="uri-code">Loading ERC-681 URI…</code>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>On-Chain Invoices &amp; Milestone Releases</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Mode</th>
+                <th>Status</th>
+                <th>Total (tUSD8)</th>
+                <th>Released</th>
+                <th>Origin</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="invoices-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: AI AGENT SESSION KEYS -->
+    <section id="tab-agent" class="tab-panel">
+      <div class="two-col">
+        <div class="card">
+          <h2>Scoped Agent Session Policy</h2>
+          <p class="hint">Least-privilege permissions enforced on-chain by <code>TUSD8PayGuard</code>: per-tx limit, UTC daily spend cap, expiration, and CoP payee verification.</p>
+          <form id="form-session" class="form-grid">
+            <label>
+              Max Per Tx (tUSD8)
+              <input id="sess-max-tx" type="text" value="20.00" required />
+            </label>
+            <label>
+              Daily Cap (tUSD8)
+              <input id="sess-daily" type="text" value="30.00" required />
+            </label>
+            <label>
+              Duration (Hours)
+              <input id="sess-hours" type="number" value="24" min="1" max="720" required />
+            </label>
+            <div class="session-status-box" id="session-status-box">No active session</div>
+            <div class="btn-row">
+              <button type="submit" class="btn btn-primary">Grant Session Key</button>
+              <button type="button" id="btn-revoke-session" class="btn btn-danger">Revoke Immediately</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Agent Execution &amp; Attack Simulation</h2>
+          <p class="hint">Test legitimate autonomous settlement with a canonical <code>reasonHash</code>, or fire adversarial probes to verify on-chain safety guards.</p>
+          <div class="probe-list">
+            <div class="probe-row">
+              <div>
+                <strong>Valid Payment (15.00 tUSD8)</strong>
+                <p class="micro">Pays attested <code>Aevum Cloud Node #1</code> within cap</p>
+              </div>
+              <button id="btn-agent-valid" class="btn btn-primary">Execute</button>
+            </div>
+            <div class="probe-row">
+              <div>
+                <strong>Prompt Injection Attack (5.00 tUSD8)</strong>
+                <p class="micro">Tries paying an unverified external address</p>
+              </div>
+              <button id="btn-agent-inj" class="btn btn-danger">Simulate Attack</button>
+            </div>
+            <div class="probe-row">
+              <div>
+                <strong>Over Per-Tx Cap (25.00 tUSD8)</strong>
+                <p class="micro">Attempts payment above <code>maxPerTx</code> ceiling</p>
+              </div>
+              <button id="btn-agent-cap" class="btn btn-danger">Simulate Over-Cap</button>
+            </div>
+          </div>
+          <div id="agent-log" class="console-box">Ready. Grant a session key first, then test execution or attack probes.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: HONEST CHAIN WATCHER -->
+    <section id="tab-watcher" class="tab-panel">
+      <div class="card">
+        <div class="row-between">
+          <div>
+            <h2>Honest tUSD8 Watcher &amp; Audit Trail</h2>
+            <p class="hint">Filters strictly by official tUSD8 contract <code>0x4565…3483</code> and rejects zero-value ERC-20 <code>Transfer</code> spam.</p>
+          </div>
+          <button id="btn-zero-probe" class="btn btn-secondary">Send 0 tUSD8 Spoof Probe</button>
+        </div>
+        <div class="two-col" style="margin-top: 16px;">
+          <div>
+            <h3>Verified Non-Zero tUSD8 Transfers</h3>
+            <div id="transfers-feed" class="feed-list"></div>
+          </div>
+          <div>
+            <h3>Decoded PayGuard &amp; CoP Events</h3>
+            <div id="events-feed" class="feed-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

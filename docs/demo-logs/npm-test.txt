@@ -1,0 +1,16 @@
+
+> aevum-tusd8-payguard@1.0.0 test
+> node --test test/*.test.js
+
+✔ parseTUSD8 uses strict 6-decimal integer arithmetic (1.732319ms)
+✔ ERC-681 builder pins chainId 44005 and official tUSD8 (2.695991ms)
+✔ computeLabelHash and canonicalReasonHash are deterministic (0.527489ms)
+✔ HonestChainWatcher ignores zero-value transfers and foreign tokens (5.904468ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 189.582093

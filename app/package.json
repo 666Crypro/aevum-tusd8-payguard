@@ -1,0 +1,19 @@
+{
+  "name": "aevum-tusd8-payguard",
+  "version": "1.0.0",
+  "description": "Non-custodial tUSD8 invoicing, Confirmation-of-Payee, milestone escrow, and scoped AI agent clearinghouse on QDay Aevum Testnet (Chain ID 44005)",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/server.js",
+    "demo": "node src/demo.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ethers": "^6.13.4",
+    "qrcode": "^1.5.4"
+  }
+}

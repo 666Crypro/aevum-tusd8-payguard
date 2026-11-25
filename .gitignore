@@ -1,0 +1,18 @@
+# Secrets & local env
+.secrets/
+.env
+.env.*
+!.env.example
+
+# Foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+
+# Node
+app/node_modules/
+node_modules/
+
+# Logs & temporary build artifacts
+*.log
+/tmp/

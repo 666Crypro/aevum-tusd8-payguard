@@ -1,0 +1,22 @@
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 5.62s
+Compiler run successful!
+
+Ran 14 tests for test/PayGuardUnit.t.sol:PayGuardUnitTest
+[PASS] testFuzz_EscrowPartialReleasesAndFee(uint96,uint16,uint16) (runs: 512, μ: 545704, ~: 553765)
+[PASS] test_AttestationByOwner() (gas: 84294)
+[PASS] test_ConstructorRejectsWrongDecimals() (gas: 866078)
+[PASS] test_DisputeAndArbiterSplit() (gas: 619359)
+[PASS] test_EscrowExpiredRefund() (gas: 539206)
+[PASS] test_EscrowMilestoneReleaseFlow() (gas: 607632)
+[PASS] test_FeeCapAndPayout() (gas: 439581)
+[PASS] test_FundInvoiceRevertsOnCoPMismatch() (gas: 271199)
+[PASS] test_FundInvoiceRevertsOnPayeeMismatch() (gas: 231575)
+[PASS] test_InstantInvoiceWithCoP() (gas: 454831)
+[PASS] test_PauseCircuitBreaker() (gas: 69015)
+[PASS] test_PayeeRegistrationAndCoPVerify() (gas: 35292)
+[PASS] test_SessionBlocksUnverifiedPayeeAndRevocationAndExpiry() (gas: 464306)
+[PASS] test_SessionKeyCapsAndDailyRollover() (gas: 1405455)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 20.42ms (21.81ms CPU time)
+
+Ran 1 test suite in 21.38ms (20.42ms CPU time): 14 tests passed, 0 failed, 0 skipped (14 total tests)
